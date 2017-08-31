@@ -1,0 +1,10 @@
+name: tardis
+title:
+username:
+account: rguha
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 209316
+bundleId: 961385
+url: https://rguha.shinyapps.io/tardis/
+when: 1504143646.53629

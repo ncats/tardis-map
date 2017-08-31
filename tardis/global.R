@@ -1,0 +1,6 @@
+library(shiny)
+library(dplyr)
+library(reshape2)
+library(plotly)
+library(stringr)
+load("work.Rda")
