@@ -1,6 +1,6 @@
 shinyUI(pageWithSidebar(
     # Application title
-    headerPanel(HTML("<img src='tardis.png' width=40>TarDis - Explore Target-Disease Associations (v0.1.2)")),
+    headerPanel(HTML("<img src='tardis.png' width=40>TarDis - Explore Target-Disease Associations (v0.1.3)")),
     
     # Sidebar with a slider input for number of bins
     sidebarPanel(
@@ -14,7 +14,7 @@ shinyUI(pageWithSidebar(
     
     # Show a plot of the generated distribution
     mainPanel(
-        plotlyOutput("plotlyHM", width = "850px", height = "800px")        
+        plotlyOutput("plotlyHM", width = "850px", height = "1600px")        
     )
     
 ))
