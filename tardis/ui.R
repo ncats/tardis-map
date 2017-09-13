@@ -1,6 +1,6 @@
 shinyUI(pageWithSidebar(
     # Application title
-    headerPanel(HTML("<img src='tardis.png' width=40>TarDis - Explore Target-Disease Associations (v0.1.3)")),
+    headerPanel(HTML("<img src='tardis.png' width=40>TarDis - Explore Target-Disease Associations (v0.1.4)")),
     
     # Sidebar with a slider input for number of bins
     sidebarPanel(

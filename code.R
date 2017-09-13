@@ -40,6 +40,7 @@ parent.paths <- lapply(parent.paths, function(pl) {
   tmp <- do.call(rbind, lapply(pl, function(pe) data.frame(id=pe$id, level=pe$level)))
   merge(tmp, do[, c('id','name')], by='id') %>% arrange(level)
 })
+names(parent.paths) <- unlist(sapply(parent.paths, function(x) x$id[1]))
 
 save(disease,targets,dop,proteins,do,parent.paths,
      file='work.Rda')

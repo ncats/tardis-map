@@ -38,7 +38,6 @@ shinyServer(function(input, output) {
             names(m) <- c('tcol', 'dcol', 'value')
         }
 
-        print(m)
         
         ## Convert to matrix
         tmp <- dcast(m, dcol ~ tcol)
@@ -75,7 +74,7 @@ shinyServer(function(input, output) {
                title = "",
                autosize = FALSE,
                width = 850,
-               height = 800,
+               height = 1600,
                margin = list(l = 200, r = 50, b = 250, t = 50, pad = 4),
                font = list(size = 12),
                xaxis = list(title = ""),
