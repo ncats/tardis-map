@@ -37,8 +37,6 @@ shinyServer(function(input, output) {
         }
 
         print(m)
-        print(head(m,1))
-        print(tail(m,1))
         
         ## Convert to matrix
         tmp <- dcast(m, dcol ~ tcol)
@@ -75,7 +73,7 @@ shinyServer(function(input, output) {
                title = "",
                autosize = FALSE,
                width = 850,
-               height = 1600,
+               height = 800,
                margin = list(l = 200, r = 50, b = 250, t = 50, pad = 4),
                font = list(size = 12),
                xaxis = list(title = ""),
