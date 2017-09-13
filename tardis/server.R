@@ -10,7 +10,7 @@ shinyServer(function(input, output) {
                        TDL = 'tdl',
                        Family = 'fam')
         dcol = switch(dlevel,
-                      Parent = 'parent',
+                      Level1 = 'level1',
                       Raw = 'did')
 
         dgrid <- disease %>%
@@ -22,6 +22,8 @@ shinyServer(function(input, output) {
         dgrid <- merge(dgrid, proteins[,c('id','uniprot','geneid','sym','chr')], by.x='target_id', by.y='id')
         dgrid$fam[is.na(dgrid$fam)] <- 'Unspecified'
 
+        print(head(dgrid))
+        
         syms <- sapply(str_split(syms,",")[[1]], str_trim)
         if (syms == "" || length(syms) == 0) {
             m <- dgrid %>%
