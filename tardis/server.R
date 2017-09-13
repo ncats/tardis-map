@@ -7,6 +7,11 @@ shinyServer(function(input, output) {
         syms <- input$syms
         
         tcol <- switch(tlevel,
+                       `Ion Channel` = 'IC',
+                       Kinase = 'Kinase',
+                       `Nuclear Receptor` = 'NR',
+                       GPCR = 'GPCR',
+                       TF = 'TF',
                        TDL = 'tdl',
                        Family = 'fam')
         dcol = switch(dlevel,
@@ -37,10 +42,18 @@ shinyServer(function(input, output) {
         
         syms <- sapply(str_split(syms,",")[[1]], str_trim)
         if (syms == "" || length(syms) == 0) {
-            m <- dgrid %>%
-                group_by_(tcol,dcol) %>%
-                summarize(value = median(zscore))
-            names(m) <- c('tcol', 'dcol', 'value')
+            if (tcol %in% c('IC','NR','TF','Kinase','GPCR')) {
+                m <- dgrid %>%
+                    dplyr::filter(fam == tcol) %>%
+                    group_by_('sym',dcol) %>%
+                    summarize(value = median(zscore))
+                names(m) <- c('tcol', 'dcol', 'value')
+            } else {
+                m <- dgrid %>%
+                    group_by_(tcol,dcol) %>%
+                    summarize(value = median(zscore))
+                names(m) <- c('tcol', 'dcol', 'value')
+            }
         } else {
             m <- dgrid %>%
                 dplyr::filter(sym %in% syms) %>%
