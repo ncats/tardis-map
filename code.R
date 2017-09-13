@@ -15,7 +15,33 @@ targets <- dbGetQuery(db, "select * from target")
 proteins <- dbGetQuery(db, "select * from protein")
 dop <- dbGetQuery(db, "select * from do_parent")
 do <- dbGetQuery(db, "select * from do")
-save(disease,targets,dop,proteins,do,
+
+## Construct DO hierarchy as tabular form to support
+## aggregation at different levels
+get.parents <- function(idlist) {
+  last.id <- idlist[[ length(idlist) ]]
+
+  p <- subset(dop, doid %in% last.id$id)
+  if (nrow(p) == 0) return(idlist)
+  else {
+    ## Not entirely correct since a given term can have
+    ## multiple parents
+    p <- p[1,]
+    idlist[[ length(idlist)+1 ]] <- list(id=p$parent, level=last.id$level+1)
+    return(get.parents(idlist))
+  }
+}
+parent.paths <- lapply(unique(do$id),
+                       function(x) get.parents(list(list(id=x, level=0))))
+
+## Convert path list to path data.frames, where first row is starting doid
+## and subsequent rows are parents. Last row should be root
+parent.paths <- lapply(parent.paths, function(pl) {
+  tmp <- do.call(rbind, lapply(pl, function(pe) data.frame(id=pe$id, level=pe$level)))
+  merge(tmp, do[, c('id','name')], by='id') %>% arrange(level)
+})
+
+save(disease,targets,dop,proteins,do,parent.paths,
      file='work.Rda')
 
 ##################################################################################
