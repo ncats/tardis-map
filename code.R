@@ -42,7 +42,30 @@ parent.paths <- lapply(parent.paths, function(pl) {
 })
 names(parent.paths) <- unlist(sapply(parent.paths, function(x) x$id[1]))
 
+
+## Precomputed disease grid with 3 levels of disease
+dgrid <- disease %>%
+    dplyr::filter(dtype == "JensenLab Text Mining" & !is.na(zscore)) %>%
+    select(target_id, did, zscore) %>%
+    mutate(z100 = scales::rescale(zscore, to=c(0,100)))
+dgrid <- merge(dgrid, targets[,c('id','tdl','fam')], by.x='target_id', by.y='id')
+dgrid <- merge(dgrid, dop, by.x='did', by.y='doid')
+dgrid <- merge(dgrid, proteins[,c('id','uniprot','geneid','sym','chr')], by.x='target_id', by.y='id')
+dgrid$fam[is.na(dgrid$fam)] <- 'Unspecified'
+
+tmp <- do.call(rbind, mclapply(parent.paths, function(pd) {
+    if (nrow(pd) == 1) return(NULL)
+    l1 <- pd$id[nrow(pd)-1]
+    l2 <- NA
+    if (nrow(pd) > 2) l2 <- pd$id[nrow(pd)-2]
+    l3 <- NA
+    if (nrow(pd) > 3) l3 <- pd$id[nrow(pd)-3]
+    data.frame(did=pd$id[1], level1=l1, level2=l2, level3=l3)
+}, mc.cores=6))
+dgrid <- merge(dgrid, tmp, by='did')
+
 save(disease,targets,dop,proteins,do,parent.paths,
+     dgrid,
      file='work.Rda')
 
 ##################################################################################
