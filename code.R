@@ -5,11 +5,10 @@ library(parallel)
 library(ineq)
 ##library(multidplyr)
 db = dbConnect(MySQL(),
-               user='root',
-               password='NC@TS-IFX@',
-               dbname='tcrd460',
-               host='127.0.0.1',
-               port=3307)
+               user='tcrd',
+               password='',
+               dbname='tcrd469',
+               host='tcrd.kmc.io')
 disease <- dbGetQuery(db, "select d.*, t.name as tname from disease d, target t where t.id = d.target_id")
 targets <- dbGetQuery(db, "select * from target")
 proteins <- dbGetQuery(db, "select * from protein")
